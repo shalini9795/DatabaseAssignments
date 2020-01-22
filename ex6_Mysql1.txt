@@ -1,0 +1,52 @@
+delimiter //
+
+create trigger order_mst_insert
+
+before insert
+on ord_dtl
+for each row
+
+begin
+
+update prod_mst set booked_qty=booked_qty+new.qty 
+where prod_cd=new.prod_cd;
+end;//
+
+delimiter ;
+
+
+
+
+
+insert into ord_dtl values('1','P3',500);
+
+select * from prod_mst;
+
+
+
+/*Write a Before Delete trigger on Ord_dtl. 
+Anytime a row is deleted from Ord_dtl, the Booked_qty in Prod_mst should be decreased accordingly*/
+
+
+delimiter //
+
+
+create trigger ord_dtl_delete
+
+before delete
+
+on ord_dtl for each row
+
+begin
+
+update prod_mst set booked_qty=booked_qty-old.qty 
+where prod_cd=old.prod_cd;
+
+end;
+
+
+delimiter ;
+
+
+
+delete from ord_dtl

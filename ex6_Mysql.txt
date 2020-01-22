@@ -1,0 +1,31 @@
+create table order_mst
+(
+ordno char(4),
+cust_cd char(4),
+status char(4)
+);
+
+create table ord_dtl
+(
+ordno char(4),
+prod_cd char(4),
+qty int(4)
+);
+
+
+create table prod_mst
+(
+prod_cd char(4),
+prod_name varchar(20),
+qty_in_stock int(7),
+booked_qty int(7)
+);
+
+
+insert into order_mst(ordno,cust_cd,status) values('1','C1','P');
+
+insert into ord_dtl(ordno,prod_cd,qty) values('1','P1',100),
+											('1','P2',200);
+                                            
+                                            
+insert into prod_mst(prod_cd,prod_name,qty_in_stock

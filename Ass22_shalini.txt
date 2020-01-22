@@ -1,0 +1,2 @@
+1. If there is a power failure, what will happen to all changes contained in the current transaction? 
+Ans- The changes contained in the transaction rolls back to the last commited point.

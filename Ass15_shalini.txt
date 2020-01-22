@@ -1,0 +1,28 @@
+1) Assume there is a table called Multicast, with all of the same column definitions as Salespeople. 
+   Write a command that inserts all salespeople with more than one customer into this table.   
+Ans-
+	create table multicast 
+as 
+	
+select salespeople.Snum,Sname,salespeople.City,comm
+	from salespeople,customers
+	where salespeople.snum=customers.snum
+
+	having count(cnum)>1;
+
+   
+2) Write a command that deletes all customers with no orders.   
+Ans- 
+	delete from customers 
+
+	where cname=(select distinct tempp.cname from(select cname from customers
+
+	where cnum not in(select orders.cnum from orders)) as tempp);
+   
+3) Write a command that increases by twenty percent the commissions of all salespeople with total orders above Rs.3,000.   
+Ans-
+	select comm+comm*0.2 as 'Updated Comm' from salespeople
+	
+where snum =any(select snum from orders
+
+        where amt > 3000);

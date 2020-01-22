@@ -1,0 +1,325 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\*\generator Riched20 10.0.14393}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\f0\fs22\lang9 DECLARE @month INT(4);\par
+\par
+\par
+delimiter //\par
+create function Age_calc(dob date) returns int(4)\par
+not deterministic\par
+begin\par
+declare age1 int(4);\par
+\par
+SET @month = F(MM, dob)\par
+SET age1 =  FLOOR(DATEDIFF(CURDATE(),dob) / 365);\par
+return age1;\par
+end;//\par
+delimiter ;\par
+\par
+drop function Age_calc;\par
+\par
+delimiter //\par
+create procedure abcd()\par
+begin\par
+declare age int(4);\par
+set age=Age_calc('1990-09-08');\par
+insert into ten values(age);\par
+end;//\par
+\par
+\par
+delimiter ;\par
+use sh;\par
+drop procedure abcd;\par
+call abcd();\par
+select * from ten;\par
+\par
+\par
+select * from t1;\par
+alter table t1 drop message;\par
+\par
+alter table t1  \par
+change no1   no1 char(4);\par
+alter table t1 add message varchar(10);\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\par
+use sh;\par
+delimiter //\par
+create trigger ord_dtl_update\par
+before update\par
+on ord_dtl for each row\par
+begin\par
+update prod_mst set booked_qty=new.qty where prod_cd =old.prod_cd or prod_cd=new.prod_cd;\par
+end;//\par
+\par
+drop trigger ord_dtl_update;\par
+update ord_dtl\par
+set qty=4500 where prod_cd='P1';\par
+select * from prod_mst;\par
+select * from ord_dtl;\par
+\par
+\par
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\par
+\par
+use dac34;\par
+show full tables;\par
+\par
+create or replace view v_orders_date as\par
+select * from orders;\par
+group by odate ;\par
+\par
+select * from v_orders_date;\par
+\par
+drop view i_orders_date; \par
+create index i_orders on orders(onum);\par
+drop index i_salespeople_orders on orders;\par
+\tab\par
+select onum,odate from orders \par
+group by odate ;\par
+\par
+alter table orders\par
+add unique (onum);\par
+\par
+create or replace view v_salespeople_orders as\par
+select * from orders\par
+group by odate;\par
+\par
+select * from v_salespeople_orders;\par
+create index i_salespeople_orders on orders(odate);\par
+\par
+select * from customers;\par
+group by odate;\par
+\par
+\par
+update orders \par
+set cnum = 2001\par
+where cnum=2003;\par
+\par
+select * from customers;\par
+update emp set sal=10000\par
+where deptno=(select temp.deptno from(select deptno from emp\par
+where ename ='D') as temp);\par
+\par
+select cname from customers,orders;\par
+select comm+comm*0.2 as 'Updated Comm' from salespeople\par
+where snum =any(select snum from orders\par
+where amt > 3000);\par
+\par
+create table multicast\par
+as\par
+select salespeople.Snum,Sname,salespeople.City,comm from salespeople,customers where salespeople.snum=customers.snum\par
+having count(cnum)>1;\par
+\par
+\par
+delete from multicast;\par
+\par
+\par
+create table orders12\par
+(\par
+\tab onum char(4) primary key,\par
+    cnum char(4),\par
+    snum char(4),\par
+    odate date not null,\par
+    unique (cnum,snum)\par
+);\par
+\par
+delete from dac35.Commissions1234;\par
+rollback;\par
+\par
+insert into dac33.v4 values(1001,.10);\par
+insert into dac33.v5 values(1001,.15);\par
+\par
+\par
+\par
+create table salespeople12\par
+(\par
+\tab snum char(4) primary key,\par
+    sname varchar(20) check( upper(sname)),\par
+    comm float(4,2) not null default 0.10,\par
+    check(sname between 'A' and 'M')\tab\par
+);\par
+\par
+select * from multicast;\par
+drop table multicast;\par
+\par
+\par
+create table orders12\par
+(\par
+\tab onum char(4) primary key,\par
+    cnum char(4) not null,\par
+    snum char(4) not null,\par
+    odate date not null,\par
+    check(onum>cnum and cnum>snum)\par
+);\par
+insert into emp values('D',3000,2),\par
+                      ('E',3000,2);\par
+                      \par
+update deptot set saltot =6000\par
+where deptno =2;\par
+select * from deptot;\par
+select * from emp;\par
+select * from tempp;\par
+delete from tempp;\par
+\par
+\par
+delimiter //\par
+create trigger autoupdate\par
+before update\par
+on emp for each row\par
+begin\par
+\tab\tab\par
+\tab\par
+\tab\tab insert into tempp values(sysdate(),1,'updated');\par
+end; //\par
+\par
+\par
+delimiter //\par
+create trigger autoupdate1\par
+before insert\par
+on tempp for each row\par
+begin\par
+\tab\tab\par
+\tab\tab insert into tempp values(sysdate(),2,'Deleted');\par
+end; //\par
+\par
+\par
+delimiter //\par
+create trigger autoupdate2\par
+before delete\par
+on deptot for each row\par
+begin\par
+\tab\tab\par
+\tab\tab insert into tempp values(sysdate(),3,'Inserted');\par
+end; //\par
+\par
+insert into deptot values (3,45000);\par
+\par
+drop trigger autoupdate2;\par
+select * from deptot;\par
+select * from emp;\par
+select * from tempp;\par
+\par
+\par
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\par
+\par
+\par
+create table order_mst\par
+(\par
+ordno char(4),\par
+cust_cd char(4),\par
+status char(4)\par
+);\par
+\par
+create table ord_dtl\par
+(\par
+ordno char(4),\par
+prod_cd char(4),\par
+qty int(4)\par
+);\par
+\par
+\par
+create table prod_mst\par
+(\par
+prod_cd char(4),\par
+prod_name varchar(20),\par
+qty_in_stock int(7),\par
+booked_qty int(7)\par
+);\par
+\par
+\par
+insert into order_mst(ordno,cust_cd,status) values('1','C1','P');\par
+\par
+insert into ord_dtl(ordno,prod_cd,qty) values('1','P1',100),\par
+\tab\tab\tab\tab\tab\tab\tab\tab\tab\tab\tab ('1','P2',200);\par
+                                            \par
+                                            \par
+insert into prod_mst(prod_cd,prod_name,qty_in_stock,booked_qty) values('P1','Floppies',10000,1000),\par
+\tab\tab\tab\tab\tab\tab\tab\tab\tab\tab\tab\tab\tab\tab\tab\tab\tab\tab ('P2','Printers',5000,600),\par
+                                                                        ('P3','Modems',3000,200);\par
+                                                                        \par
+                                                                        \par
+                                                                        \par
+                                                                        \par
+/*Write a Before Insert trigger on Ord_dtl.\par
+Anytime a row is inserted in Ord_dtl, the Booked_qty in Prod_mst should be increased accordingly. */\par
+\par
+delimiter //\par
+create trigger order_mst_insert\par
+before insert\par
+on ord_dtl for each row\par
+begin\par
+update prod_mst set booked_qty=booked_qty+new.qty where prod_cd=new.prod_cd;\par
+end;//\par
+delimiter ;\par
+\par
+\par
+insert into ord_dtl values('1','P3',500);\par
+select * from prod_mst;\par
+\par
+/*Write a Before Delete trigger on Ord_dtl. \par
+Anytime a row is deleted from Ord_dtl, the Booked_qty in Prod_mst should be decreased accordingly*/\par
+delimiter //\par
+create trigger ord_dtl_delete\par
+before delete\par
+on ord_dtl for each row\par
+begin\par
+update prod_mst set booked_qty=booked_qty-old.qty where prod_cd=old.prod_cd;\par
+end;\par
+\par
+delimiter ;\par
+\par
+delete from ord_dtl\par
+\par
+\par
+delimiter //\par
+create trigger ord_dtl_update\par
+before update\par
+on ord_dtl for each row\par
+begin\par
+update prod_mst set booked_qty=new.qty where prod_cd =old.prod_cd or prod_cd=new.prod_cd;\par
+end;//\par
+\par
+drop trigger ord_dtl_update;\par
+update ord_dtl\par
+set qty=4500 where prod_cd='P1';\par
+select * from prod_mst;\par
+select * from ord_dtl;\par
+\par
+\par
+\par
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\par
+\par
+\par
+\par
+delimiter //\par
+create procedure abc()\par
+begin\par
+\tab declare int x(4) default 1;\par
+    pqr_loop:loop\par
+    if x>10 then\par
+\tab\tab leave pqr_loop;\par
+\tab end if;\par
+    \par
+    set x=x+1;\par
+    if mod(x,2)!=0 then\par
+    iterate pqr_loop;\par
+    else\par
+    insert into t1 values(x,'inside loop');\par
+end if;\par
+delimiter ;\par
+\par
+\par
+\par
+create table t1\par
+(\par
+number int(4),\par
+message varchar(20)\par
+);\par
+\par
+}
+ 

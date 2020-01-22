@@ -1,0 +1,27 @@
+1. Display all the Suppliers with the same Status as the supplier, ‘CLARK’.
+Ans-
+	select sname from S
+
+	where status1= any
+(select status1 from S
+where sname ='JACK');      
+
+2. Display all the Employees in the same department as the employee 
+Ans- 
+
+3. Display all the Parts which have more Weight than all the Red parts.      
+Ans- 
+	select * from P
+
+	where weight> any
+(select weight from P
+where color ='GREY');
+
+4. Display all the Projects going on in the same city as the project ‘TAPE’.   
+Ans-
+
+5. Display all the Parts with Weight less than all the Green parts.      
+6. Display the name of the Supplier who has sold the maximum Quantity (in one 
+7. Display the name of the Employee with the minimum 
+8. Display the name of the Supplier who has sold the maximum overall Quantity (sum of Sales).      
+9. Display the name of the Department with the maximum number of Employees.   

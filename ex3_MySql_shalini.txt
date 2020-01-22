@@ -1,0 +1,118 @@
+1. Write a program containing a loop that iterates from 1 to 1000 using a variable I, 
+   which is incremented each time around the loop. The program should output the value of I every hundred iterations
+   (i.e., the output should be 100, 200, etc.).    
+Ans-
+
+create procedure print_numbers()
+begin
+	declare i int(3) default 1;
+	declare NUM int(3);
+
+	while i<1000 do
+		set num=(i%100);
+    
+	if num=0 then 
+    		insert into pr values (i);
+    	end if;
+    		set i=i+1;
+    	end while;
+end;//  
+
+2. Write a program that examines all the numbers from 1 to 999,
+   displaying all those for which the sum of the cubes of the digits equal the number itself.
+Ans-
+	
+delimiter //
+create procedure armstrong_no()
+begin
+declare i int(3) default 1;
+declare FIRST_DGT float(5,2) ;
+declare TEMP float(5,2) ;
+declare SECOND_DGT float(5,2) ;
+declare THIRD_DGT float(5,2) ;
+declare NUM int(8);
+
+ while i!=999 do
+ 
+      set FIRST_DGT=floor(i/100);
+      set THIRD_DGT=i%10;
+      set TEMP= floor(i/10);
+      set SECOND_DGT=TEMP%10;
+      set NUM=(pow(FIRST_DGT,3)+pow(SECOND_DGT,3)+pow(THIRD_DGT,3));
+      
+      if i=NUM then 
+    insert into arm values (NUM);
+    end if;
+    
+    set i=i+1;
+    end while;
+
+end;//
+ 
+3. Write a program that Selects from any table a minimum and maximum value for a radius,
+   along with an increment factor, and generates a series of radii by repeatedly adding the increment to the minimum until the maximum is reached. For each value of the radius, compute and display the circumference, area, and volume of the sphere. (Be sure to include both the maximum and the minimum values.).   
+
+Ans-
+
+delimiter //
+create procedure radii(min_r float(5,2),max_r float(5,2),incr int (4))
+begin
+    declare i int(4) default min_r;
+    declare area float(11,2);
+    declare circum float(11,2);
+    declare volume float(11,2);
+    declare pi float(4,2) default 3.14;
+    while i<=max_r do
+    set area=(4*pi*(pow(i,2)));
+    set circum=2*pi*i;
+    set volume=((4/3)*pi*(pow(i,2)));
+    
+    insert into area_circum values(area,circum,volume);
+    set i=i+incr;
+    end while;
+    
+end;//
+
+4. A palindrome is a word that is spelled the same forward and backward,
+ such as level, radar, etc.Write a program to Selects from any table a five letter word and determine whether it is a palindrome.    
+Ans-
+create procedure palin()
+begin
+	declare a char(10);
+    declare x int(4) default 1;
+    declare y int(4) default 1;
+    declare c1 cursor for select * from namess;
+    select count(*) into y from namess;
+    open c1;
+    while x<y do
+	fetch c1 into a;
+    if reverse(SUBSTRING(a,1,5))=SUBSTRING(a,1,5) then
+    insert into pal values(a,'Palindrome');
+    else
+    insert into pal values(a,'Not Palindrome');
+   end if; 
+    
+end while;
+end;//
+	  
+5. Modify the above program to Select from any table a variable length word.
+ This requires determining how many characters are read in.   
+Ans-
+
+delimiter //
+create procedure char_num()
+begin
+    declare a char(10);
+    declare x int(4) default 1;
+    declare y int(4) default 1;
+    declare z int(4) default 0;
+    declare c1 cursor for select * from namess;
+    select count(*) into y from namess;
+    open c1;
+    while x<y do
+	fetch c1 into a;
+    set z=length(a);
+    insert into str values(a,z);
+   
+	end while;
+end;//

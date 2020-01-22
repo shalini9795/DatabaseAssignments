@@ -1,0 +1,14 @@
+1) Which field of the Customers table is the primary key?  
+Ans-	Cnum 
+   
+2) What is the 4th column of the Customers table? 
+Ans-	Rating
+   
+3) What is another word for row?  For column?   
+Ans- 	Other names for Row in RDBMS->Entity,Tuple,Oppurtunity. In DBMS ->Record
+	Other names for Column in RDBMS->Attribute,Key,Method.	In DBMS ->Field	
+   
+4) Why isn’t it possible to see the first five rows of a table? 
+Ans-	The rows are not stored sequentially at any one location, i.e 
+	to speed up the inserting process for multiple users.Rows of the
+	table are scattered all over the server database HD.

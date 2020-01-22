@@ -1,0 +1,86 @@
+1. Write a program that computes the perimeter and the area of a rectangle. 
+   Define your own values for the length and width. (Assuming that L and W are the length and width of the rectangle, 
+   Perimeter = 2*(L+W) and Area = L*W.    
+Ans-
+delimiter //
+  
+create procedure a_of_triangle()
+
+begin
+  
+	
+	declare length float(5,2) default 5.09;
+	
+	declare width float(5,2) default 6.09;
+	
+	declare area float(5,2);
+	
+	declare perimeter float(5,2);
+    
+	set area= length*width;
+	
+	set perimeter=2*(length+width);
+	
+	insert into output values(area,perimeter);
+
+end;//
+	
+delimiter;
+
+call a_of_triangle();
+
+2. Write a program that declares an integer variable called num, assigns a value to it, and computes and inserts 
+   into the tempp table the value of the variable itself, its square, and its cube.     
+Ans- 
+
+delimiter //
+
+create procedure sqr_cube(num int(4))
+
+begin
+      
+   
+	declare sqr int (6);
+  
+	declare cubee int(6);
+    
+	select pow(num,2), pow(num,3) into sqr,cubee;
+   
+	insert into op_sqr_cube values(num,sqr,cubee);
+
+end;//
+
+delimiter;
+
+call sqr_cube(20);
+   
+3. Convert a temperature in Fahrenheit (F) to its equivalent in Celsius (C) and vice versa. The required formulae 
+   are:-C= (F-32)*5/9   F= 9/5*C + 32        
+Ans-
+delimiter //
+
+create procedure temp_convert(f float(4,2),c float(4,2))
+
+begin
+      
+      
+	declare Fah float(6,2);
+      
+	declare Cel float(6,2);
+     
+	select ( (f-32)*5/9 ),( (9/5*C) + 32   )into Cel, Fah;
+      
+	insert into op_tempchange values(Cel,Fah);
+
+end;//
+
+4. Convert a number of inches into yards, feet, and inches. For example, 124 inches equals 3 yards, 1 foot, and 4 inches.    
+Ans-
+    
+5. Write a program that enables a user to input an integer. The program should then state whether the integer is 
+   evenly divisible by 5.    
+Ans-
+    
+6. Your block should read in two real numbers and tell whether the product of the two numbers is equal to or 
+   greater than 100.  
+Ans-

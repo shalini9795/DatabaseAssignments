@@ -1,0 +1,143 @@
+Q1:
+
+CREATE table SEMP
+(
+	EMPNO CHAR(4),
+	EMPNAME CHAR(20),
+	BASIC FLOAT(9,2),
+	DEPTNO CHAR(2),
+	DEPTHEAD CHAR(4)
+);
+
+
+CREATE table SDEPT
+(
+	DEPTNO    CHAR(2),    
+	DEPTNAME   CHAR(15) 
+);
+
+INSERT into SEMP (EMPNO,EMPNAME,BASIC,DEPTNO,DEPTHEAD)
+values ('0001','SUNIL',6000,'10',NULL),
+('0002','HIREN',8000,'20',NULL),
+('0003','ALI',4000,'10','0001'),
+('0004','GEORGE',6000,NULL,'0002');
+
+
+INSERT into SDEPT(DEPTNO,DEPTNAME)
+values('10','Development'),
+('20','Training');
+
+SELECT * FROM SDEPT;
+
+Q2:
+
+CREATE table P
+(
+	`P#` CHAR(5) PRIMARY KEY,
+    PNAME VARCHAR(15),
+    COLOR VARCHAR(15),
+    WEIGHT FLOAT(4,2),
+    CITY VARCHAR(15)
+);
+
+CREATE table J
+(
+	`J#` CHAR(5) PRIMARY KEY,
+    JNAME VARCHAR(15),
+    CITY VARCHAR(15)
+);
+
+CREATE table SPJ
+(
+	`S#` CHAR(5),
+    JNO CHAR(5),
+    PNO CHAR(5),
+    QTY CHAR(10)
+);
+INSERT INTO S (`S#`,SNAME,STATUS1,CITY)
+VALUES ('S1','ALEX PARRIS','10','LONDON'),
+('S2','JOHN','20','PARIS'),
+('S3','NATALIA','20','ATHENS'),
+('S4','JACK','30','LONDON'),
+('S5','SCARLETT','30','PARIS'),
+('S6','MARK','10','ATHENS'),
+('S7','RACHEL','30','LONDON');
+
+INSERT INTO P (`P#`,PNAME,COLOR,WEIGHT,CITY)
+VALUES ('P1','KEYBOARD','BLACK',13.50,'LONDON'),
+('P2','MOUSE','BLUE',14.00,'LONDON'),
+('P3','CPU','WHITE',25.00,'PARIS'),
+('P4','USB','WHITE',15.00,'ATHENS'),
+('P5','HD','GREY',12.00,'LONDON'),
+('P6','MONITOR','BLACK',14.00,'PARIS'),
+('P7','CABLE','BLUE',12.00,'ATHENS');
+
+INSERT INTO J (`J#`,JNAME,CITY)
+VALUES('J1','PROJECT1','LONDON'),
+('J2','PROJECT2','LONDON'),
+('J3','PROJECT3','PARIS'),
+('J4','PROJECT4','ATHENS'),
+('J5','PROJECT5','LONDON'),
+('J6','PROJECT6','PARIS'),
+('J7','PROJECT7','LONDON');
+
+INSERT INTO SPJ(`S#`,`P#`,`J#`,QTY)
+VALUES ('S1','P1','J1','5'),
+('S2','P2','J2','6'),
+('S3','P3','J3','3'),
+('S4','P4','J4','4'),
+('S5','P5','J5','3'),
+('S6','P6','J6','2'),
+('S7','P7','J7','3');
+
+5. Display all the data from the S table.      
+Ans- 
+	SELECT * FROM S;
+
+6. Display only the S# and SNAME fields from the S table.
+Ans- 
+	SELECT `S#`,SNAME FROM S;
+	
+7. Display the PNAME and COLOR from the P table for the CITY=”London”.
+Ans-
+	SELECT PNAME, COLOR FROM P
+
+        WHERE CITY = 'London';
+8. Display all the Suppliers from London.
+Ans-
+	SELECT * FROM S
+     
+	WHERE City='London';
+9. Display all the Suppliers from Paris or Athens.
+Ans-
+	SELECT * FROM S
+     
+	WHERE City='Paris' OR City='ATHENS';
+10. Display all the Projects in Athens.
+Ans-
+	SELECT * FROM J
+     
+	WHERE City='ATHENS';
+
+11. Display all the Partnames with the weight between 12 and 14 (inclusive of both).
+Ans-
+	SELECT PNAME FROM P
+     
+	WHERE WEIGHT BETWEEN 12 AND 14;
+12. Display all the Suppliers with a Status greater than or equal to 20.
+Ans- 
+        SELECT * FROM S
+     
+	WHERE STATUS1 >=20;
+13. Display all the Suppliers except the Suppliers from London. 
+Ans- 
+	SELECT * FROM S
+     
+	WHERE City not like'London';     
+14. Display only the Cities from where the Suppliers come from.
+Ans-
+	SELECT distinct city  FROM S;
+
+15. Assuming that the Part Weight is in GRAMS, display the same in MILLIGRAMS and KILOGRAMS
+Ans-
+	SELECT WEIGHT/1000 "KG", WEIGHT*100 "MG" from P;
